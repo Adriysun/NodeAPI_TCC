@@ -1,12 +1,13 @@
 {
   "dependencies": {
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "nodemon": "^2.0.19",
     "pg": "^8.8.0"
   },
   "name": "nodeapi_tcc",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exist 1",
     "start": "nodemon server.js"
