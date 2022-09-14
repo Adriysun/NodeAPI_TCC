@@ -7,9 +7,6 @@ require('dotenv').config();
 
 const rotaProdutos = require('./routes/produtos');
 
-app.use('/produtos', rotaProdutos);
-
-
 const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
     ssl: {
