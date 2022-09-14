@@ -17,12 +17,14 @@ const pool = new Pool({
       }
 })
 
+app.get('/', (req, res) =>{
+    return res.json({mensagem: "O ADM ESTÀ ONLINE!!!"})
+})
 
 app.get('/usuario', async (req, res) =>{
     try{
-        const users = await pool.query('SELECT * FROM usuario')  
-        console.log(users)
-       // return res.status(200).send(rows)
+        const { rows } = await pool.query('SELECT * FROM usuario')  
+        return res.status(200).send(rows)
     } catch(err) {
         return res.status(400).send(err)
     }
