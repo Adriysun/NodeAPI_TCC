@@ -3,9 +3,12 @@ const { Pool } = require('pg');
 const app = express();
 require('dotenv').config();
 
+// Const de rotas
+const rotaInicial = require('./routes/inicial');
 
 
-const rotaProdutos = require('./routes/produtos');
+// Rotas
+app.use('/', rotaInicial);
 
 const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
@@ -14,9 +17,6 @@ const pool = new Pool({
       }
 })
 
-app.get('/', (req, res) =>{
-    return res.json({mensagem: "O ADM ESTÀ ONLINE!!!"})
-})
 
 app.get('/usuario', async (req, res) =>{
     try{
