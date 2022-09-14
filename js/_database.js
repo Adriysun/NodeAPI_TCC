@@ -1,6 +1,15 @@
 const pg = require ('pg')
-const { database, password } = require('pg/lib/defaults')
+const { Pool } = require('pg')
 
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+    ssl: {
+        rejectUnauthorized: false
+      }
+})
+
+
+/*
 const client = new pg.Client({
     user: 'mtjazyulyfwxqh',
     host: 'ec2-44-206-137-96.compute-1.amazonaws.com',
@@ -10,3 +19,4 @@ const client = new pg.Client({
 })
 
 module.exports = client
+*/
