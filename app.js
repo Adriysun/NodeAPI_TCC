@@ -10,6 +10,8 @@ const rotaInicial = require('./routes/inicial');
 // Rotas
 app.use('/', rotaInicial);
 
+
+
 const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
     ssl: {
@@ -26,6 +28,38 @@ app.get('/usuario', async (req, res) =>{
         return res.status(400).send(err)
     }
 })
+
+
+
+app.get('/empresa', async (req, res) =>{
+    try{
+        const { rows } = await pool.query('SELECT * FROM empresa')  
+        return res.status(200).send(rows)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+
+app.get('/reservatorio', async (req, res) =>{
+    try{
+        const { rows } = await pool.query('SELECT * FROM reservatorio')  
+        return res.status(200).send(rows)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+
+
+
+app.get('/agua', async (req, res) =>{
+    try{
+        const { rows } = await pool.query('SELECT * FROM agua')  
+        return res.status(200).send(rows)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+
 
 module.exports = app;
 
