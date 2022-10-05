@@ -1,14 +1,24 @@
 const express = require('express');
 const { Pool } = require('pg');
+const cors = require('cors');
+
 const app = express();
+
 require('dotenv').config();
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
+const userRoute = require ('./routes/usuarios.routes');
 
+// Cors
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.json({ type: 'application/vnd.api+json' }));
+app.use(cors());
 
-// Rotas
-app.use('/', rotaInicial);
+// Rotas da API
+app.use(rotaInicial);
+app.use('/api/', userRoute);
 
 
 // Conexão com o banco PostgreSQL
@@ -28,6 +38,7 @@ app.get('/usuario', async (req, res) =>{
         return res.status(400).send(err)
     }
 })
+
 
 // Rota empresa
 app.get('/empresa', async (req, res) =>{
