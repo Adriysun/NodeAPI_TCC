@@ -1,11 +1,10 @@
 const express = require ('express');
 const router = express.Router();
-const app = express ();
-const pool = require ('../app');
 
 
-router.get('/', (req, res, next) =>{
-    res.status(200).send({mensagem: "O ADM ESTÀ ONLINE!!!"});
+router.get('/api', (req, res, next) =>{
+    res.status(200).send
+    ({mensagem: "Bem vindo a API do TCC - Sensor de Qualidade de Água"});
 });
 
 module.exports = router;
