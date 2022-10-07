@@ -9,6 +9,7 @@ require('dotenv').config();
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
 const userRoute = require ('./routes/usuarios.routes');
+const userRotas = require('./routes/usuarios.routes');
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use(cors());
 // Rotas da API
 app.use(rotaInicial);
 app.use('/api/', userRoute);
+app.use('/api/', userRotas);
 
 
 // Conexão com o banco PostgreSQL
