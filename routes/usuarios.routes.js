@@ -3,13 +3,15 @@ const userController = require('../controllers/usuarios.controllers');
 const userClass = require('../Daos/usuarios');
 
 var bodyParser = require('body-parser');
+var connect = require('connect')
 var timeout = require('connect-timeout');
 
 // Rota de cadastramento de usuarios
 router.post('/usuarios', userController.createUser);
 
-router.post('/usuarios2', userClass.inclua, timeout('10s'), 
-bodyParser.json(), haltOnTimedout, function (req, res, next) {
+var app = connect()
+router.post('/usuarios2',  timeout('5s'), bodyParser.json(), 
+haltOnTimedout, function (req, res, next) { 
     savePost(req.body, function (err, id) {
       if (err) return next(err)
       if (req.timedout) return
@@ -18,16 +20,9 @@ bodyParser.json(), haltOnTimedout, function (req, res, next) {
  });
 
  function haltOnTimedout(req, res, next){
-	if (!req.timedout){
+	if (!req.timedout)
 		next();
-	}
-	else{
-		let err = new Error("ERRO DE TIMEOUT");
-		err.status = 504;
-		next(err);
-	}
 }
-
 
   function savePost (post, cb) {
     setTimeout(function () {
@@ -35,5 +30,6 @@ bodyParser.json(), haltOnTimedout, function (req, res, next) {
     }, (Math.random() * 7000) >>> 0)
   }
 
+  app.listen(3000)
   
 module.exports = router;
