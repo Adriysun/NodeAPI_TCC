@@ -17,9 +17,17 @@ bodyParser.json(), haltOnTimedout, function (req, res, next) {
     })
  });
 
-  function haltOnTimedout (req, res, next) {
-    if (!req.timedout) next()
-  }
+ function haltOnTimedout(req, res, next){
+	if (!req.timedout){
+		next();
+	}
+	else{
+		let err = new Error("ERRO DE TIMEOUT");
+		err.status = 504;
+		next(err);
+	}
+}
+
 
   function savePost (post, cb) {
     setTimeout(function () {
@@ -27,4 +35,5 @@ bodyParser.json(), haltOnTimedout, function (req, res, next) {
     }, (Math.random() * 7000) >>> 0)
   }
 
+  
 module.exports = router;
