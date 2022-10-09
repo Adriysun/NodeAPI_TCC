@@ -9,7 +9,6 @@ var timeout = require('connect-timeout');
 
 const app = express();
 app.use(timeout('10s'))
-app.use(bodyParser())
 app.use(haltOnTimedout)
 app.use(cookieParser())
 app.use(haltOnTimedout)
