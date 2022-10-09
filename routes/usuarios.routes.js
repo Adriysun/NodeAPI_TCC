@@ -28,7 +28,5 @@ haltOnTimedout, function (req, res, next) {
       cb(null, ((Math.random() * 40000) >>> 0))
     }, (Math.random() * 7000) >>> 0)
   }
-
-  app.listen(3000)
   
 module.exports = router;
