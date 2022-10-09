@@ -3,13 +3,12 @@ const userController = require('../controllers/usuarios.controllers');
 const userClass = require('../Daos/usuarios');
 
 var bodyParser = require('body-parser');
-var connect = require('connect')
 var timeout = require('connect-timeout');
 
 // Rota de cadastramento de usuarios
 router.post('/usuarios', userController.createUser);
 
-var app = connect()
+
 router.post('/usuarios2',  timeout('5s'), bodyParser.json(), 
 haltOnTimedout, function (req, res, next) { 
     savePost(req.body, function (err, id) {
