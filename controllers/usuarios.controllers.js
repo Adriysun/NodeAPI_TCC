@@ -16,5 +16,5 @@ exports.createUser = async (req, res) => {
         },
       });
 
-      console.log(cpf);
+      console.log(cpf, id_email, nome, sobrenome, senha, dtnasci);
     };
