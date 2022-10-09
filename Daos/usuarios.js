@@ -9,6 +9,7 @@ async function inclua(usuario) {
     } catch(error) {
         return false;
     }
+
 }
 
 module.exports = {inclua};

@@ -2,13 +2,18 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var timeout = require('connect-timeout');
+
+
 const app = express();
-/*
+
 app.use(timeout('10s'))
 app.use(haltOnTimedout)
 app.use(cookieParser())
 app.use(haltOnTimedout)
-*/
+
 
 require('dotenv').config();
 
