@@ -4,6 +4,7 @@ const db = require("../js/_database");
 
 exports.createUser = async (req, res) => {
     const { cpf, id_email, nome, sobrenome, senha, dtnasci} = req.body;
+    console.log(cpf, id_email, nome, sobrenome, senha, dtnasci);
     const { rows } = await db.query(
       'INSERT INTO usuario (cpf, id_email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
       [cpf, id_email, nome, sobrenome, senha, dtnasci]
