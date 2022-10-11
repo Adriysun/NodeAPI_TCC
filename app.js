@@ -1,26 +1,12 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
-
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var timeout = require('connect-timeout');
-
-
 const app = express();
-
-app.use(timeout('10s'))
-app.use(haltOnTimedout)
-app.use(cookieParser())
-app.use(haltOnTimedout)
-
-
 require('dotenv').config();
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
 const userRoute = require ('./routes/usuarios.routes');
-const userRotas = require('./routes/usuarios.routes');
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
@@ -31,11 +17,7 @@ app.use(cors());
 // Rotas da API
 app.use(rotaInicial);
 app.use('/api/', userRoute);
-app.use('/api/', userRotas);
 
-function haltOnTimedout (req, res, next) {
-    if (!req.timedout) next()
-  }
 
 // Conexão com o banco PostgreSQL
 const pool = new Pool({
