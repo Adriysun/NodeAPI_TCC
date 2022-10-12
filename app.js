@@ -50,9 +50,17 @@ app.get('/empresa', async (req, res) =>{
 })
 
 // Rota reservatorio
-app.get('/reservatorio', async (req, res) =>{
+app.get('/reservatorioUser', async (req, res) =>{
     try{
-        const { rows } = await pool.query('SELECT * FROM reservatorio')  
+        const { rows } = await pool.query('SELECT * FROM reservatorioUser')  
+        return res.status(200).send(rows)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+app.get('/reservatorioEmp', async (req, res) =>{
+    try{
+        const { rows } = await pool.query('SELECT * FROM reservatorioEmp')  
         return res.status(200).send(rows)
     } catch(err) {
         return res.status(400).send(err)
@@ -60,9 +68,17 @@ app.get('/reservatorio', async (req, res) =>{
 })
 
 // Rota agua
-app.get('/agua', async (req, res) =>{
+app.get('/aguaUser', async (req, res) =>{
     try{
-        const { rows } = await pool.query('SELECT * FROM agua')  
+        const { rows } = await pool.query('SELECT * FROM aguaUser')  
+        return res.status(200).send(rows)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+app.get('/aguaEmp', async (req, res) =>{
+    try{
+        const { rows } = await pool.query('SELECT * FROM aguaEmp')  
         return res.status(200).send(rows)
     } catch(err) {
         return res.status(400).send(err)

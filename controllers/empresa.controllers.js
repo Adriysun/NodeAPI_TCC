@@ -4,7 +4,7 @@ exports.createEmpresa = async (req, res) =>{
      const {cnpj, razao_social, nome_fantasia, email_emp, senha, atv_eco, dtfund, imagemreserv} = req.body;
       const { rows } = await db.query(
         'INSERT INTO usuario (cnpj, razao_social, nome_fantasia, email_emp, senha, atv_eco, dtfund) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-        [req.body.cnpj, razao_social, nome_fantasia, email_emp, hash, atv_eco, dtfund]
+        [req.body.cnpj, razao_social, nome_fantasia, email_emp, senha, atv_eco, dtfund]
       );
   
       res.status(201).send({

@@ -3,16 +3,16 @@ const db = require("../js/_database");
 // Método responsável pelo cadastramento de usuários
 
 exports.createUser = async (req, res) => {
-    const { cpf, id_email, nome, sobrenome, senha, dtnasci} = req.body;
+    const { cpf, email, nome, sobrenome, senha, dtnasci} = req.body;
     const { rows } = await db.query(
-      'INSERT INTO usuario (cpf, id_email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
-      [cpf, id_email, nome, sobrenome, senha, dtnasci]
+      'INSERT INTO usuario (cpf, email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
+      [cpf, email, nome, sobrenome, senha, dtnasci]
     );
 
     res.status(201).send({
         message: "Usuario cadastrado com sucesso!",
         body: {
-          user: {cpf, id_email, nome, sobrenome, senha, dtnasci}
+          user: {cpf, email, nome, sobrenome, senha, dtnasci}
         },
       });
 
@@ -23,9 +23,9 @@ exports.createUser = async (req, res) => {
     // npm install --save bcrypt
     // npm install jsonwebtoken --save
 exports.loginUser = async (req, res) =>{
-  const {id_email} = req.body;
-  const { rows } = await db.query('SELECT * FROM usuario WHERE id_email = $1',
-  [id_email], results);
+  const {email} = req.body;
+  const { rows } = await db.query('SELECT * FROM usuario WHERE email = $1',
+  [email], results);
   if (results.length < 1){
     return res.status(401).send({mensagem: 'Verifique seu email e tente novamente!'})
   }
