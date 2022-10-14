@@ -3,6 +3,6 @@ const userController = require('../controllers/usuarios.controllers');
 
 // Rota de cadastro de usuarios
 router.post('/cadastro_Usuario', userController.createUser);
-router.post('/login', userController.loginUser);
+router.post('/login_Usuario', userController.loginUser);
 
 module.exports = router;

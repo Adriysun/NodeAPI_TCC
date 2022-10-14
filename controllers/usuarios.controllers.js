@@ -19,16 +19,26 @@ exports.createUser = async (req, res) => {
       console.log("Usuário cadastrado com sucesso!");
     };
 
-    // É NECESSÁRIO INSTALAR A BIBLIOTECA JWT E O BCRYPT
-    // npm install --save bcrypt
-    // npm install jsonwebtoken --save
 exports.loginUser = async (req, res) =>{
+  const user = user.findOne({
+    attributes: ['id_usuario, email, senha']
+  })
+
+
+  
+ /* 
   const {email} = req.body;
-  const { rows } = await db.query('SELECT * FROM usuario WHERE email = $1',
-  [email], results);
+  const results = await db.query('SELECT * FROM usuario WHERE email = $1',
+  [email]);
   if (results.length < 1){
     return res.status(401).send({mensagem: 'Verifique seu email e tente novamente!'})
   }
+  else {
+    res.status(201).send({
+      message: "Seja Bem vindo " + email
+    });
+  }
+*/
 }
 
 // https://www.youtube.com/watch?v=A-c643zCW7E (login)
