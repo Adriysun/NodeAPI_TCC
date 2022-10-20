@@ -6,8 +6,8 @@ require('dotenv').config();
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
-const userRoute = require ('./routes/usuarios.routes');
-const loginRoute = require ('./routes/usuarios.routes');
+const userRoute = require ('./routes/usuarios');
+const loginRoute = require ('./routes/usuarios');
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
