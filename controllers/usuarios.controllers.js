@@ -8,17 +8,17 @@ exports.createUser = async (req, res, next) => {
   bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
     if (errBcrypt) { return res.status(500).send({ error: errBcrypt }); }
     db.query('INSERT INTO usuario (cpf, email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
-      [cpf, email, nome, sobrenome, hash, dtnasci],
+      [cpf, email, nome, sobrenome, hash, dtnasci]);
 
-      (error, results) => {
-        db.release();
-        if (error) { return res.status(500).send({ error: error }) }
+      //(error, results) => {
+      //  db.release();
+      //  if (error) { return res.status(500).send({ error: error }) }
         return res.status(201).send({
           mensagem: 'Usuário criado com sucesso (AMEM)',
-          id_usuario: results.insertId,
+      //    id_usuario: results.insertId,
           usuarioCriado: { cpf, email, nome, sobrenome, dtnasci }
         });
-      });
+     // });
   });
 }
 
