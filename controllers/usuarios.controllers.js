@@ -16,42 +16,76 @@ async function createUser(user){
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
   ssl: {
-      rejectUnauthorized: false
-    }
+    rejectUnauthorized: false
+  }
 })
 
 exports.createUser = async function (req, res, next) {
   const { cpf, email, nome, sobrenome, senha, dtnasci } = req.body;
-  pool.connect((err, client, release) =>{
-    if (err){
+  pool.connect((err, client, release) => {
+    if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
     }
-    client.query ('SELECT * FROM usuario WHERE email = $1', [req.body.email],
-    (err, result) =>{
-      release();
-      if(err) {
-        return console.error('Erro ao executar a query', err.stack);
-      }
-      if(result.length > 0){
-        res.status(409).send({ mensagem: 'Usuário já cadastrado' })
-        console.log(length)
-      } 
-      else
-      {
-        bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
-          if (errBcrypt) { return res.status(500).send({ error: errBcrypt }); }
-          client.query('INSERT INTO usuario (cpf, email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
-            [req.body.cpf, email, nome, sobrenome, hash, dtnasci]);
-  
-          return res.status(201).send({
-            mensagem: 'Usuário criado com sucesso (AMEM)',
-            usuarioCriado: { cpf, email, nome, sobrenome, dtnasci }
+    client.query('SELECT * FROM usuario WHERE email = $1', [req.body.email],
+      (err, result) => {
+        release();
+        if (err) {
+          return console.error('Erro ao executar a query', err.stack);
+        }
+        if (result.length > 0) {
+          res.status(409).send({ mensagem: 'Usuário já cadastrado' })
+          console.log(length)
+        }
+        else {
+          bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
+            if (errBcrypt) { return res.status(500).send({ error: errBcrypt }); }
+            client.query('INSERT INTO usuario (cpf, email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
+              [req.body.cpf, email, nome, sobrenome, hash, dtnasci]);
+
+            return res.status(201).send({
+              mensagem: 'Usuário criado com sucesso (AMEM)',
+              usuarioCriado: { cpf, email, nome, sobrenome, dtnasci }
+            });
           });
-        });
-        console.log("Usuário cadastrado com sucesso!");
-      }     
-    })
+          console.log("Usuário cadastrado com sucesso!");
+        }
+      })
   })
+
+  // ------ TESTE ANA --------------------------------
+
+  exports.createUser = (req, res, next) =>
+    pool.connect((error, conn) => {
+      if (error) { return res.status(500).send({ error: error }) }
+
+      conn.query('SELECT * FROM usuario WHERE email = $1', [req.body.email],
+        (error, results) => {
+          if (error) { return res.status(500).send({ error: error }) }
+          if (results.length > 0) {
+            res.status(409).send({ mensagem: 'Usuário já cadastrado' })
+          }
+          else {
+            bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
+              if (errBcrypt) { return res.status(500).send({ error: errBcrypt }) }
+              conn.query('INSERT INTO usuario (cpf, email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
+                [req.body.cpf, req.body.email, req.body.nome, req.body.sobrenome, hash, req.body.dtnasci]);
+              (error, result) => {
+                conn.release();
+                if (error) { return res.status(500).send({ error: error }) }
+
+                const response = {
+                  mensagem: 'Usuário criado com sucesso (AMEM)'
+                }
+                return res.status(201).send(response);
+              }
+            })
+          }
+        })
+    })
+
+
+  //---------------------------------------------------------
+
   /*
   await pool.query('SELECT * FROM usuario WHERE email = $1', [req.body.email], (error, results) => {
     if (error) { return res.status(500).send({ error: error }) }
@@ -62,7 +96,7 @@ exports.createUser = async function (req, res, next) {
         if (errBcrypt) { return res.status(500).send({ error: errBcrypt }); }
         pool.query('INSERT INTO usuario (cpf, email, nome, sobrenome, senha, dtnasci) VALUES ($1, $2, $3, $4, $5, $6)',
           [req.body.cpf, email, nome, sobrenome, hash, dtnasci]);
-
+ 
         return res.status(201).send({
           mensagem: 'Usuário criado com sucesso (AMEM)',
           usuarioCriado: { cpf, email, nome, sobrenome, dtnasci }
@@ -82,49 +116,49 @@ exports.createUser = async function (req, res, next) {
 exports.loginUser = async function (req, res, next) {
   const { email } = req.body;
   //const query = 'SELECT * FROM usuario WHERE email = $1';
-  pool.connect((err, client, release) =>{
-    if (err){
+  pool.connect((err, client, release) => {
+    if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
     }
     client.query('SELECT * FROM usuario WHERE email = $1', [req.body.email],
-    (err, result) =>{
-      release();
-      if(err) {
-        return console.error('Erro ao executar a query', err.stack);
-      }
-      if (result.length < 1) {
-        return res.status(401).send({ mensagem: 'Falha na autenticação' })
-      }
-      bcrypt.compare(req.body.senha, result[0].senha, (err, result) => {
+      (err, result) => {
+        release();
         if (err) {
-          return res.status(401).send({ mensagem: 'Falha na autenticação2' })
+          return console.error('Erro ao executar a query', err.stack);
         }
-        if (result) {
-          console.log('DEU TUDO CERTO');
-          return res.status(200).send({ mensagem: 'Autenticado com sucesso' });
+        if (result.length < 1) {
+          return res.status(401).send({ mensagem: 'Falha na autenticação' })
         }
-        return res.status(401).send({ mensagem: 'Falha na autenticação3' })
-      })
-    });
-    })
-  }
+        bcrypt.compare(req.body.senha, result[0].senha, (err, result) => {
+          if (err) {
+            return res.status(401).send({ mensagem: 'Falha na autenticação2' })
+          }
+          if (result) {
+            console.log('DEU TUDO CERTO');
+            return res.status(200).send({ mensagem: 'Autenticado com sucesso' });
+          }
+          return res.status(401).send({ mensagem: 'Falha na autenticação3' })
+        })
+      });
+  })
+}
   /*
-  await client.query('SELECT * FROM usuario WHERE email = $1', [req.body.email], (error, results) => {
-    if (error) { return res.status(500).send({ error: error }) }
-    if (results.length < 1) {
-      return res.status(401).send({ mensagem: 'Falha na autenticação' })
-    }
-    bcrypt.compare(req.body.senha, results[0].senha, async (err, result) => {
-      if (err) {
-        return res.status(401).send({ mensagem: 'Falha na autenticação2' })
-      }
-      if (result) {
-        console.log('DEU TUDO CERTO');
-        return res.status(200).send({ mensagem: 'Autenticado com sucesso' });
-      }
-      return res.status(401).send({ mensagem: 'Falha na autenticação3' })
-    })
-  });
+await client.query('SELECT * FROM usuario WHERE email = $1', [req.body.email], (error, results) => {
+if (error) { return res.status(500).send({ error: error }) }
+if (results.length < 1) {
+return res.status(401).send({ mensagem: 'Falha na autenticação' })
+}
+bcrypt.compare(req.body.senha, results[0].senha, async (err, result) => {
+if (err) {
+return res.status(401).send({ mensagem: 'Falha na autenticação2' })
+}
+if (result) {
+console.log('DEU TUDO CERTO');
+return res.status(200).send({ mensagem: 'Autenticado com sucesso' });
+}
+return res.status(401).send({ mensagem: 'Falha na autenticação3' })
+})
+});
 }
 */
 
