@@ -19,10 +19,10 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 })
-
+/*
 exports.createUser = async function (req, res, next) {
   const { cpf, email, nome, sobrenome, senha, dtnasci } = req.body;
-  pool.connect((err, client, release) => {
+  await pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
     }
@@ -32,9 +32,9 @@ exports.createUser = async function (req, res, next) {
         if (err) {
           return console.error('Erro ao executar a query', err.stack);
         }
-        if (result.length > 0) {
+        if (result.rows.length > 0) {
           res.status(409).send({ mensagem: 'Usuário já cadastrado' })
-          console.log(length)
+          
         }
         else {
           bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
@@ -51,9 +51,9 @@ exports.createUser = async function (req, res, next) {
         }
       })
   })
-
+}
   // ------ TESTE ANA --------------------------------
-
+/*
   exports.createUser = (req, res, next) =>
     pool.connect((error, conn) => {
       if (error) { return res.status(500).send({ error: error }) }
@@ -106,7 +106,7 @@ exports.createUser = async function (req, res, next) {
     }
   });
   */
-}
+
 
 
 
