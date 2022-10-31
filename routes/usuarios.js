@@ -1,8 +1,8 @@
 const router = require('express-promise-router')();
-const userController = require('../controllers/usuarios.controllers');
 const bcrypt = require ('bcrypt');
 const { Pool } = require('pg');
 
+// Conexão com o banco determinada
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
   ssl: {
@@ -45,6 +45,7 @@ router.post('/cadastro_usuarios', (req, res, next) => {
   })
 })
 
+//Rota de login de usuarios
 router.post('/login_usuarios', (req, res, next) => {
   const { email }= req.body;
   pool.connect((err, client, release) => {
@@ -60,16 +61,16 @@ router.post('/login_usuarios', (req, res, next) => {
         if (results.rows.length < 1) {
           return res.status(401).send({ mensagem: 'Falha na autenticação' })
         }
-        bcrypt.compare(req.body.senha, results[0].senha, (err, result) => {
-          //console.log(results)
+        bcrypt.compare(req.body.senha, results.rows[0].senha, (err, result) => {
           if (err) {
-            return res.status(401).send({ mensagem: 'Falha na autenticação2' })
+            return res.status(401).send({ mensagem: 'Falha na autenticação' })
           }
           if (result) {
-            console.log('DEU TUDO CERTO');
-            return res.status(200).send({ mensagem: 'Autenticado com sucesso' });
+            console.log('Autenticado com sucesso!');
+            return res.status(200).send({ mensagem: 'Autenticado com sucesso!' });
           }
-          return res.status(401).send({ mensagem: 'Falha na autenticação3' })
+          console.log('Senha Incorreta!')
+          return res.status(401).send({ mensagem: 'Senha Incorreta' })
         })
       });
   })

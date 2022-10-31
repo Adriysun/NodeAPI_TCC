@@ -11,6 +11,7 @@ const pool = new Pool({
       }
 })
 
+// Teste de conexão com o banco
 pool.connect((err, client, release) => {
   if (err) {
     return console.error('erro ao pegar o cliente', err.stack)
@@ -24,13 +25,4 @@ pool.connect((err, client, release) => {
   })
 })
 
-/*
-pool.on('connect', () => {
-  console.log('Base de Dados conectado com sucesso!');
-});
 
-
-module.exports = {
-  query: (text, params) => pool.query(text, params)
-}
-*/
