@@ -10,6 +10,7 @@ const userRoute = require ('./routes/usuarios');
 const loginRoute = require ('./routes/usuarios');
 const empRoute = require ('./routes/empresas');
 const loginEmpRoute = require ('./routes/empresas');
+const reservRoute = require ('./routes/reservatorios');
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +24,8 @@ app.use('/api/', userRoute);
 app.use('/api/', loginRoute);
 app.use('/api/', empRoute);
 app.use('/api/', loginEmpRoute);
+app.use('/api/', reservRoute);
+
 
 // Conexão com o banco PostgreSQL
 const pool = new Pool({
