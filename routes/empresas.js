@@ -75,7 +75,7 @@ router.post('/cadastro_empresas', (req, res, next) => {
     })
   });
   
-  module.exports = router;
-
-
+  
 module.exports = router;
+
+

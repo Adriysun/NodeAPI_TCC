@@ -1,6 +1,8 @@
 const router = require('express-promise-router')();
 const bcrypt = require ('bcrypt');
 const { Pool } = require('pg');
+const jwt = require('jsonwebtoken');
+
 
 // Conexão com o banco determinada
 const pool = new Pool({
@@ -52,7 +54,7 @@ router.post('/login_usuarios', (req, res, next) => {
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
     }
-    const query = 'SELECT * FROM usuario WHERE email = $1';
+    const query = 'SELECT * FROM usuario WHERE email = $1'
     client.query(query, [req.body.email], (err, results, fields) => {
         release();
         if (err) {
@@ -66,8 +68,19 @@ router.post('/login_usuarios', (req, res, next) => {
             return res.status(401).send({ mensagem: 'Falha na autenticação' })
           }
           if (result) {
+            const token = jwt.sign({
+              id_usuario: results.rows[0].id_usuario,
+              email: results.rows[0].email
+            },
+            process.env.JWT_KEY,
+            {
+              expiresIn: "1h"
+            })
             console.log('Autenticado com sucesso!');
-            return res.status(200).send({ mensagem: 'Autenticado com sucesso!' });
+            return res.status(200).send({ 
+              mensagem: 'Autenticado com sucesso!',
+              token: token 
+            });
           }
           console.log('Senha Incorreta!')
           return res.status(401).send({ mensagem: 'Senha Incorreta' })
