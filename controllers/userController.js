@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 const jwt = require('jsonwebtoken');
 const bcrypt = require ('bcrypt');
+const express = require ('express');
+const router = express.Router();
 
 const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
@@ -41,38 +43,39 @@ const createUser = async (req, res) =>{
       })
 }
 
-const login = async (req, res) =>{
+const login1 = async (req, res) =>{
   pool.connect((err, client, release) =>{
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
     }
     const query = 'SELECT * FROM usuario WHERE email = $1'
-    client.query(query, [req.body.email], (err, results, fields) => {
+    const {email, senha} = req.params;
+    client.query(query, [req.params.email], (err, results, fields) => {
         release();
         if (err) {
           return console.error('Erro ao executar a query', err.stack);
         }
         if (results.rows.length < 1) {
-          return res.status(401).send({ mensagem: 'Falha na autenticação' })
+          return res.status(401).send({ mensagem: 'Falha na autenticação1' })
         }
-        bcrypt.compare(req.body.senha, results.rows[0].senha, (err, result) => {
+        bcrypt.compare(req.params.senha, results.rows[0].senha, (err, result) => {
           if (err) {
-            return res.status(401).send({ mensagem: 'Falha na autenticação' })
+            return res.status(401).send({ mensagem: 'Falha na autenticação2' })
           }
           if (result) {
-            const token = jwt.sign({
+            const armazenado = {
               id_usuario: results.rows[0].id_usuario,
               email: results.rows[0].email
-            },
-            process.env.JWT_KEY,
-            {
-              expiresIn: "1h"
-            })
+            }
+           // process.env.JWT_KEY,
+           // {
+             // expiresIn: "1h"
+            //})
             console.log('Autenticado com sucesso!');
             return res.status(200).send({
               id_usuario: results.rows[0].id_usuario,
               mensagem: 'Autenticado com sucesso!',
-              token: token 
+              token: armazenado 
             });
           }
           console.log('Senha Incorreta!')
@@ -82,4 +85,42 @@ const login = async (req, res) =>{
   })
 }
 
-module.exports = {createUser, login}
+const login = async (login) =>{
+  pool.connect((err, client, release) =>{
+    if (err) {
+      return console.error('Error ao adquirir o cliente', err.stack)
+    }
+    try{
+    const sql = client.query('SELECT id_usuario, nome, sobrenome, email, senha FROM usuario WHERE email = $1 AND senha $1 ')
+    const dados = [login.email, login.senha]
+    const linhas = client.query(sql, dados);
+
+    return linhas;
+    
+    }catch(error){
+      console.log(error);
+      return false;
+    }
+  })
+
+}
+
+
+router.get('/login', (req, res, next) =>{
+  pool.connect((err, client, release) =>{
+    if (err) {
+      return console.error('Error ao adquirir o cliente', err.stack)
+    }
+    client.query('SELECT id_usuario, nome, sobrenome, email, senha FROM usuario WHERE email = $1 AND senha $1',
+    [req.body.email, senha])
+  })
+
+  res.status(200).send
+  ({mensagem: "Usuario autenticado"
+    
+});
+});
+
+
+
+module.exports = {createUser, login, router, login1} 

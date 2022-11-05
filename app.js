@@ -32,8 +32,8 @@ app.use(cors());
 
 // Rotas da API
 app.use(rotaInicial);
-app.use('/api/', userRoute);
-app.get('/api/:email/:senha', loginRoute);
+app.use('/cadastro', userRoute);
+app.use('/login/', loginRoute); 
 app.use('/api/', empRoute);
 app.use('/api/', loginEmpRoute);
 app.use('/api/', reservRoute);

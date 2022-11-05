@@ -3,11 +3,11 @@ const userController = require ('../controllers/userController');
 
 
 // Rota de cadastro de usuarios
-router.post('/cadastro_usuarios', userController.createUser);
+router.post('/usuarios', userController.createUser);
   
-
 //Rota de login de usuarios
-router.post('/login_usuarios', userController.login);
- 
+router.get('/usuarios/:email/:senha', userController.login1);
+
+router.get('/login');
 
 module.exports = router;

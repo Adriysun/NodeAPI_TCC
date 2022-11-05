@@ -15,7 +15,7 @@ const login = async (login) => {
     try{
       const sql = 'SELECT id_usuario, nome, email, senha From usuario WHERE email = $1 AND senha = $1 ';
       const dados = [login.email, login.senha];
-      const [linhas] = client.query(sql, dados);
+      const linhas = client.query(sql, dados);
   
       return linhas;
       
