@@ -4,6 +4,18 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
+function middleWareGlobal(req, res, next) {
+    console.time('Duraçao');
+    console.log(req.url);
+
+    next();
+
+    console.log(req.url);
+    console.timeEnd('Duraçao');
+}
+
+
+
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
 const userRoute = require ('./routes/usuarios');
@@ -21,7 +33,7 @@ app.use(cors());
 // Rotas da API
 app.use(rotaInicial);
 app.use('/api/', userRoute);
-app.use('/api/', loginRoute);
+app.get('/api/:email/:senha', loginRoute);
 app.use('/api/', empRoute);
 app.use('/api/', loginEmpRoute);
 app.use('/api/', reservRoute);
