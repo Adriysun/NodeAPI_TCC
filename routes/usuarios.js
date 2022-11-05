@@ -6,8 +6,7 @@ const userController = require ('../controllers/userController');
 router.post('/usuarios', userController.createUser);
   
 //Rota de login de usuarios
-router.get('/usuarios/:email/:senha', userController.login1);
+router.get('/usuarios/:email/:senha', userController.login);
 
-router.get('/login');
 
 module.exports = router;

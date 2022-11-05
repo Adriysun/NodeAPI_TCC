@@ -43,24 +43,23 @@ const createUser = async (req, res) =>{
       })
 }
 
-const login1 = async (req, res) =>{
+const login = async (req, res) =>{
   pool.connect((err, client, release) =>{
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
     }
     const query = 'SELECT * FROM usuario WHERE email = $1'
-    const {email, senha} = req.params;
-    client.query(query, [req.params.email], (err, results, fields) => {
+    client.query(query, [req.body.email], (err, results, fields) => {
         release();
         if (err) {
           return console.error('Erro ao executar a query', err.stack);
         }
         if (results.rows.length < 1) {
-          return res.status(401).send({ mensagem: 'Falha na autenticação1' })
+          return res.status(401).send({ mensagem: 'Falha na autenticação' })
         }
-        bcrypt.compare(req.params.senha, results.rows[0].senha, (err, result) => {
+        bcrypt.compare(req.body.senha, results.rows[0].senha, (err, result) => {
           if (err) {
-            return res.status(401).send({ mensagem: 'Falha na autenticação2' })
+            return res.status(401).send({ mensagem: 'Falha na autenticação' })
           }
           if (result) {
             const armazenado = {
@@ -84,7 +83,7 @@ const login1 = async (req, res) =>{
       });
   })
 }
-
+/*
 const login = async (login) =>{
   pool.connect((err, client, release) =>{
     if (err) {
@@ -104,6 +103,7 @@ const login = async (login) =>{
   })
 
 }
+*/
 
 
 router.get('/login', (req, res, next) =>{
@@ -123,4 +123,4 @@ router.get('/login', (req, res, next) =>{
 
 
 
-module.exports = {createUser, login, router, login1} 
+module.exports = {createUser, login} 
