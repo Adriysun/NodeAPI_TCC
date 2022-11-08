@@ -10,18 +10,20 @@ const pool = new Pool({
 
 // testar esse primeiro para descobrir como retorno os reservatórios
 const retornaReserv = async (req, res) => {
+    const {id_usuario} = req.body;
     pool.connect((err, client, release) => {
         if (err) {
             return console.error('Error ao adquirir o cliente', err.stack)
         }
         const query = ('SELECT nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao FROM reservatoriouser WHERE id_usuario = $1');
-        client.query(query, [req.body.email, senha], (err, result) => {
+        client.query(query, [req.params.id_usuario], (err, result) => {
             release();
             if (err) {
                 return console.error('Erro ao executar a query', err.stack);
             }
             if (result) {
                 return res.status(200).send({
+                message: 'Buscando usuario de ID: ${id_usuario}',
                     id_usuario: result.rows.id_usuario,
                     Nome_Reservatorio: result.rpws.nome_reserv,
                     Local: result.rows.local_reserv,
