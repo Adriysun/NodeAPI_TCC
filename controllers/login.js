@@ -1,3 +1,5 @@
+// ISSO NÃO ESTÁ SENDO USADO
+
 const usuarioDBO = require('../js/dbo/usuarioDBO');
 
 const login = async (req, res) => {

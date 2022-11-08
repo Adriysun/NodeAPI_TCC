@@ -62,6 +62,7 @@ const login = async (req, res) =>{
             return res.status(401).send({ mensagem: 'Falha na autenticação' })
           }
           if (result) {
+            // talvez usar esse const como parametro tbm para passar na rota com req.params?
             const armazenado = {
               id_usuario: results.rows[0].id_usuario,
               email: results.rows[0].email

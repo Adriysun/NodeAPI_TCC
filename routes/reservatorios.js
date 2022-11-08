@@ -1,5 +1,6 @@
 const router = require('express-promise-router')();
 const { Pool } = require('pg');
+const reservController = require ('../controllers/reservController');
 
 // Determinada conexão com o banco
 const pool = new Pool({
@@ -11,6 +12,8 @@ const pool = new Pool({
 
 // AINDA NÃO FUNCIONAL!!!
 
+//testar essa rota
+router.get('/reservUser/:id_usuario', reservController.retornaReserv);
 
 // Rota para adicionar reservatorios de empresas
 router.post('/reservEmp', (req, res, next) => {
