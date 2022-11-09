@@ -1,5 +1,5 @@
 // ISSO NÃO ESTÁ SENDO USADO
-
+// CASO NÃO FUNCIONE A OUTRA ROTA, VOLTAR A ESTA
 const usuarioDBO = require('../js/dbo/usuarioDBO');
 
 const login = async (req, res) => {

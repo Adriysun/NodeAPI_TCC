@@ -22,10 +22,7 @@ const retornaReserv = async (req, res) => {
                 return console.error('Erro ao executar a query', err.stack);
             }
             if (result) {
-                return res.status(200).send({
-                message: 'Buscando usuario de ID: ${id_usuario}',
-                Reservatório: 
-                {
+                const reservatorio = {
                     IdReserv: result.rows[0].id_reservuser,
                     Nome: result.rows[0].nome_reserv,
                     IdUsuario: result.rows[0].id_usuario,
@@ -34,14 +31,20 @@ const retornaReserv = async (req, res) => {
                     DataUltimaLimpeza: result.rows[0].data_ultlimp,
                     DataProximaLimpeza: result.rows[0].data_proxlimp,
                     Tipo: result.rows[0].tipo,
-                    Descrição: result.rows[0].descricao}
+                    Descrição: result.rows[0].descricao,
+                }
+                return res.status(200).send({
+                message: 'Retornando reservatório referente ao ID do usuário',
+                tokenReserv: reservatorio
                 });
+                
 
 
             }
 
         })
     });
+
     //insert into reservatoriouser (nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) 
     //values ('CaixaDágua', 79, 'São Paulo', 13554478, '02/12/2022', '04/01/2023', 'Casa', 'Reservatorio da Casa dos fundos')
 
