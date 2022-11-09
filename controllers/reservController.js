@@ -45,13 +45,23 @@ const retornaReserv = async (req, res) => {
         })
     });
 
-const incluiReserv = async (req, res) => {
-    pool.connect((err, client, release) =>{
-        if (err) {
-            return console.error('Error ao adquirir o cliente', err.stack)
-          }
-    })
-}
+    const incluiReserv = async (req, res) => {
+        pool.connect((err, client, release) => {
+            if (err) {
+                return console.error('Error ao adquirir o cliente', err.stack)
+            }
+            client.query('INSERT INTO reservatoriouser (nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+                [req.body.nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao]);
+
+            res.status(201).send({
+                message: "Reservatório adicionado!",
+                body: {
+                    Reservatorio: { nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao }
+                },
+            });
+            console.log('Reservatório adicionado!')
+        })
+    }
 
 
 
@@ -63,4 +73,4 @@ const incluiReserv = async (req, res) => {
     //https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
 }
 
-module.exports = { retornaReserv }
+module.exports = { retornaReserv, incluiReserv }

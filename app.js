@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 app.use(rotaInicial);
 app.use('/cadastro', userRoute);
 app.use('/login', loginRoute);
-app.use('/usuario/:idusuario', reservRoute); //Rota para testar o getter de reservatórios de acordo com o id do usuario 
+app.use('/usuario/:id_usuario', reservRoute); //Rota para testar o getter de reservatórios de acordo com o id do usuario 
 app.use('/incluir', reservRoute);
 app.use('/api/', empRoute);
 app.use('/api/', loginEmpRoute);
