@@ -10,9 +10,9 @@ const pool = new Pool({
       }
 })
 
-// AINDA NÃO FUNCIONAL!!!
 
-//testar essa rota
+
+//Funcionando!
 router.get('/reservUser/:id_usuario', reservController.retornaReserv);
 
 // Rota para adicionar reservatorios de empresas

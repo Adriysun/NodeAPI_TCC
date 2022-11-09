@@ -13,7 +13,8 @@ const login = async (login) => {
         return console.error('Error ao adquirir o cliente', err.stack)
       }
     try{
-      const sql = 'SELECT id_usuario, nome, email, senha From usuario WHERE email = $1 AND senha = $1 ';
+      //talvez eu tenha que fazer isso
+      const sql = 'SELECT id_usuario, nome, email, senha From usuario WHERE email = $1 AND senha = $2 ';
       const dados = [login.email, login.senha];
       const linhas = client.query(sql, dados);
   

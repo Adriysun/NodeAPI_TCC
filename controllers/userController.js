@@ -55,14 +55,15 @@ const login = async (req, res) =>{
           return console.error('Erro ao executar a query', err.stack);
         }
         if (results.rows.length < 1) {
-          return res.status(401).send({ mensagem: 'Falha na autenticação' })
+          return res.status(401).send({ mensagem: 'Falha na autenticação1' })
         }
         bcrypt.compare(req.body.senha, results.rows[0].senha, (err, result) => {
           if (err) {
-            return res.status(401).send({ mensagem: 'Falha na autenticação' })
+            return res.status(401).send({ mensagem: 'Falha na autenticação2' })
           }
           if (result) {
             // talvez usar esse const como parametro tbm para passar na rota com req.params?
+            let id = req.params.id_usuario
             const armazenado = {
               id_usuario: results.rows[0].id_usuario,
               email: results.rows[0].email

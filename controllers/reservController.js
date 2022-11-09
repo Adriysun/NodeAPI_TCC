@@ -10,12 +10,12 @@ const pool = new Pool({
 
 // testar esse primeiro para descobrir como retorno os reservatórios
 const retornaReserv = async (req, res) => {
-    const {id_usuario} = req.body;
+    const id_usuario = req.params;
     pool.connect((err, client, release) => {
         if (err) {
             return console.error('Error ao adquirir o cliente', err.stack)
         }
-        const query = ('SELECT nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao FROM reservatoriouser WHERE id_usuario = $1');
+        const query = ('SELECT id_reservuser, nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao FROM reservatoriouser WHERE id_usuario = $1');
         client.query(query, [req.params.id_usuario], (err, result) => {
             release();
             if (err) {
@@ -24,14 +24,17 @@ const retornaReserv = async (req, res) => {
             if (result) {
                 return res.status(200).send({
                 message: 'Buscando usuario de ID: ${id_usuario}',
-                    id_usuario: result.rows.id_usuario,
-                    Nome_Reservatorio: result.rpws.nome_reserv,
-                    Local: result.rows.local_reserv,
-                    CEP: result.rows.cep,
-                    Data_Ultima_Limpeza: result.rows.data_ultlimp,
-                    Data_Proxima_Limpeza: result.data_proxlimp,
-                    Tipo_Reservatorio: result.rows.tipo,
-                    Descrição: result.rows.descricao
+                Reservatório: 
+                {
+                    IdReserv: result.rows[0].id_reservuser,
+                    Nome: result.rows[0].nome_reserv,
+                    IdUsuario: result.rows[0].id_usuario,
+                    Local: result.rows[0].local_reserv,
+                    CEP: result.rows[0].cep,
+                    DataUltimaLimpeza: result.rows[0].data_ultlimp,
+                    DataProximaLimpeza: result.rows[0].data_proxlimp,
+                    Tipo: result.rows[0].tipo,
+                    Descrição: result.rows[0].descricao}
                 });
 
 
@@ -39,6 +42,10 @@ const retornaReserv = async (req, res) => {
 
         })
     });
+    //insert into reservatoriouser (nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) 
+    //values ('CaixaDágua', 79, 'São Paulo', 13554478, '02/12/2022', '04/01/2023', 'Casa', 'Reservatorio da Casa dos fundos')
+
+    //https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
 }
 
 module.exports = {retornaReserv}
