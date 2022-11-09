@@ -13,28 +13,10 @@ const pool = new Pool({
 
 
 //Funcionando!
-router.get('/reservUser/:id_usuario', reservController.retornaReserv);
+router.get('/reservatorio', reservController.retornaReserv);
 
 // Rota para adicionar reservatorios de empresas
-router.post('/reservEmp', (req, res, next) => {
-    const { nome_reserv, /*id_empresa*/ local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao } = req.body;
-    pool.connect((err, client, release) => {
-        if (err) {
-            return console.error('Error ao adquirir o cliente', err.stack)
-          }
-        client.query('INSERT INTO reservatorioemp (nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-        [req.body.nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao]);
-
-        res.status(201).send({
-            message: "Reservatório adicionado!",
-            body: {
-              Reservatorio: {nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao}
-            },
-          });
-    
-          console.log("Reservatório adicionado!");
-  });
-});
+router.post('/reservEmp', reservController.incluiReserv);
 
 // Rota para adicionar reservatorios de usuarios
 router.post('/reservUser', (req, res, next) => {

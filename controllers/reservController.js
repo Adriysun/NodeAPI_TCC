@@ -34,10 +34,10 @@ const retornaReserv = async (req, res) => {
                     Descrição: result.rows[0].descricao,
                 }
                 return res.status(200).send({
-                message: 'Retornando reservatório referente ao ID do usuário',
-                tokenReserv: reservatorio
+                    message: 'Retornando reservatório referente ao ID do usuário',
+                    tokenReserv: reservatorio
                 });
-                
+
 
 
             }
@@ -45,10 +45,22 @@ const retornaReserv = async (req, res) => {
         })
     });
 
+const incluiReserv = async (req, res) => {
+    pool.connect((err, client, release) =>{
+        if (err) {
+            return console.error('Error ao adquirir o cliente', err.stack)
+          }
+    })
+}
+
+
+
+
+
     //insert into reservatoriouser (nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) 
     //values ('CaixaDágua', 79, 'São Paulo', 13554478, '02/12/2022', '04/01/2023', 'Casa', 'Reservatorio da Casa dos fundos')
 
     //https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
 }
 
-module.exports = {retornaReserv}
+module.exports = { retornaReserv }
