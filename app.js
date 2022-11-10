@@ -22,6 +22,7 @@ const rotaInicial = require('./routes/inicial');
 const user = require ('./controllers/userController');
 const emp = require ('./controllers/empController');
 const reserv = require ('./controllers/reservController');
+const agua = require('./controllers/aguaController');
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
@@ -49,6 +50,9 @@ app.post('')
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
+
+app.get('/Agua_User/:id_reservuser', agua.retornaAguaUser);
+app.get('/Agua_Emp/:id_reservemp', agua.retornaAguaEmp);
 
 
 
