@@ -18,7 +18,6 @@ function middleWareGlobal(req, res, next) {
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
-const reservRoute = require ('./routes/reservatorios');
 
 const user = require ('./controllers/userController');
 const emp = require ('./controllers/empController');
@@ -50,9 +49,7 @@ app.post('')
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
-app.use('/usuario', reservRoute); //Rota para testar o getter de reservatórios de acordo com o id do usuario 
-app.use('/incluir', reservRoute);
-app.use('/api/', reservRoute);
+
 
 
 // Conexão com o banco PostgreSQL
