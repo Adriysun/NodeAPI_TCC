@@ -18,11 +18,11 @@ function middleWareGlobal(req, res, next) {
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
-const userRoute = require ('./routes/usuarios');
-const loginRoute = require ('./routes/usuarios');
-const empRoute = require ('./routes/empresas');
-const loginEmpRoute = require ('./routes/empresas');
 const reservRoute = require ('./routes/reservatorios');
+
+const user = require ('./controllers/userController');
+const emp = require ('./controllers/empController');
+const reserv = require ('./controllers/reservController');
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
@@ -39,12 +39,19 @@ app.use((req, res, next) => {
 
 // Rotas da API
 app.use(rotaInicial);
-app.use('/cadastro', userRoute);
-app.use('/login', loginRoute);
-app.use('/usuario/:id_usuario', reservRoute); //Rota para testar o getter de reservatórios de acordo com o id do usuario 
+
+app.post('/Usuario/Cadastro', user.createUser);
+app.get('/Usuario/:email/:senha', user.login);
+
+app.post('/Empresa/Cadastro', emp.createEmp);
+app.get('/Empresa/:email_emp/:senha', emp.login);
+
+app.post('')
+app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
+app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
+
+app.use('/usuario', reservRoute); //Rota para testar o getter de reservatórios de acordo com o id do usuario 
 app.use('/incluir', reservRoute);
-app.use('/api/', empRoute);
-app.use('/api/', loginEmpRoute);
 app.use('/api/', reservRoute);
 
 

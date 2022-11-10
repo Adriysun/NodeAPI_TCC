@@ -1,8 +1,7 @@
 const { Pool } = require('pg');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const express = require('express');
-const router = express.Router();
+
+
 
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
@@ -12,6 +11,7 @@ const pool = new Pool({
 })
 
 const createUser = async (req, res) => {
+  const {cpf, email, nome, sobrenome, senha, dtnasci} = req.body;
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
               [req.body.cpf, email, nome, sobrenome, hash, dtnasci]);
 
             return res.status(201).send({
-              mensagem: 'Usuário criado com sucesso (AMEM)',
+              mensagem: 'Usuário criado com sucesso!',
               usuarioCriado: { cpf, email, nome, sobrenome, dtnasci }
             });
           });
@@ -66,7 +66,7 @@ const login = async (req, res) => {
           // talvez usar esse const como parametro tbm para passar na rota com req.params?
           const Id_Armazenado = {
             id_usuario: results.rows[0].id_usuario,
-            email: results.rows[0].email
+            //email: results.rows[0].email
           }
           console.log('Autenticado com sucesso!');
           return res.status(200).send({
@@ -80,22 +80,5 @@ const login = async (req, res) => {
     });
   })
 }
-/*
-router.get('/login', (req, res, next) => {
-  pool.connect((err, client, release) => {
-    if (err) {
-      return console.error('Error ao adquirir o cliente', err.stack)
-    }
-    client.query('SELECT id_usuario, nome, sobrenome, email, senha FROM usuario WHERE email = $1 AND senha $1',
-      [req.body.email, senha])
-  })
-
-  res.status(200).send
-    ({
-      mensagem: "Usuario autenticado"
-
-    });
-});
-*/
 
 module.exports = { createUser, login } 
