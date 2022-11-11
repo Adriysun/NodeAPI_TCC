@@ -42,14 +42,18 @@ app.use(rotaInicial);
 
 app.post('/Usuario/Cadastro', user.createUser);
 app.get('/Usuario/:email/:senha', user.login);
-
 app.post('/Empresa/Cadastro', emp.createEmp);
 app.get('/Empresa/:email_emp/:senha', emp.login);
 
-app.post('')
+app.post('/Reservatorio_User/:id_usuario/incluir', reserv.incluiReservUser); // teste
+app.post('/Reservatorio_Emp/:id_empresa/incluir', reserv.incluiReservEmp); // teste
+
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
+
+app.post('/Agua_User/Incluir', agua.incluiAguaUser); //Precisa incluir de acordo com o ID, sera que faz isso no flutter?
+//app.post('/Agua_Emp/:id_reservemp/incluir', agua.incluiAguaEmp); //teste
 
 app.get('/Agua_User/:id_reservuser', agua.retornaAguaUser);
 app.get('/Agua_Emp/:id_reservemp', agua.retornaAguaEmp);

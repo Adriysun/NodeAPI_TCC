@@ -87,50 +87,48 @@ const retornaReservEmp = async (req, res) => {
     });
 }
 
+
 const incluiReservUser = async (req, res) => {
+    const {nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao} = req.body;    
+    const {id_usuario} = req.params;
         pool.connect((err, client, release) => {
             if (err) {
                 return console.error('Error ao adquirir o cliente', err.stack)
             }
-            client.query('INSERT INTO reservatoriouser (nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                [req.body.nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao]);
-
+            client.query('INSERT INTO reservatoriouser (nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                [req.body.nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao], [req.params.id_usuario]);
             res.status(201).send({
                 message: "Reservatório adicionado!",
                 body: {
-                    Reservatorio: { nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao }
+                    Reservatorio: { nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao }
                 },
             });
             console.log('Reservatório adicionado!')
         })
-    }
+}
+
 
 const incluiReservEmp = async (req, res) => {
+    const {nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao} = req.body;
+    const {id_empresa} = req.params;
         pool.connect((err, client, release) => {
             if (err) {
                 return console.error('Error ao adquirir o cliente', err.stack)
             }
-            client.query('INSERT INTO reservatorioemp (nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                [req.body.nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao]);
+            client.query('INSERT INTO reservatorioemp (nome_reserv, id_empresa, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                [req.body.nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao], [req.params.id_empresa])
 
             res.status(201).send({
                 message: "Reservatório adicionado!",
                 body: {
-                    Reservatorio: { nome_reserv, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao }
+                    Reservatorio: { nome_reserv, id_empresa, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao }
                 },
             });
             console.log('Reservatório adicionado!')
         })
-    }
+}
 
 
+//https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
 
-
-
-
-    //insert into reservatoriouser (nome_reserv, id_usuario, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao) 
-    //values ('CaixaDágua', 79, 'São Paulo', 13554478, '02/12/2022', '04/01/2023', 'Casa', 'Reservatorio da Casa dos fundos')
-
-    //https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
-
-module.exports = { retornaReservUser, retornaReservEmp, incluiReservUser, incluiReservEmp }
+module.exports = { retornaReservUser, retornaReservEmp, incluiReservUser, incluiReservEmp}
