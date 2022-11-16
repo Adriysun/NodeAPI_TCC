@@ -2,7 +2,6 @@ const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 
 
-
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
   ssl: {
@@ -11,7 +10,7 @@ const pool = new Pool({
 })
 
 const createUser = async (req, res) => {
-  const {cpf, email, nome, sobrenome, senha, dtnasci} = req.body;
+  const { cpf, email, nome, sobrenome, senha, dtnasci } = req.body;
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
@@ -44,7 +43,7 @@ const createUser = async (req, res) => {
 }
 
 const login = async (req, res) => {
-  const {email, senha} = req.params
+  const { email, senha } = req.params
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error ao adquirir o cliente', err.stack)
@@ -81,4 +80,39 @@ const login = async (req, res) => {
   })
 }
 
-module.exports = { createUser, login } 
+const update = async (req, res) => {
+  const { id_usuario } = req.params;
+  const { nome, sobrenome } = req.body;
+  try{
+  pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error ao adquirir o cliente', err.stack)
+    }
+    client.query('UPDATE nome = $1, sobrenome = $2, WHERE id_usuario = $3',
+      [req.body.nome, sobrenome], [req.params.id_usuario], (err, result) => {
+        release();
+        if (err) {
+          return console.error('Erro ao executar a query', err.stack);
+        }
+        if (result.rows.length < 1) {
+          res.status(409).send({ mensagem: 'Usuário inexistente' })
+          console.log('Usuário inexistente')
+        } else {
+          return res.status(200).send({
+            mensagem: 'Usuario Atualizado!',
+            UpdatedUser: { id_usuario, nome, sobrenome }
+          })
+        }
+        console.log('Usuario alterado!')
+      })
+      return true;
+    
+  })
+}catch (erro){
+  console.log(erro)
+  return false;
+}
+}
+
+
+module.exports = { createUser, login, update } 
