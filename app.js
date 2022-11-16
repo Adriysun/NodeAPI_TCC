@@ -44,6 +44,8 @@ app.post('/Usuario/Cadastro', user.createUser);
 app.get('/Usuario/:email/:senha', user.login);
 app.post('/Empresa/Cadastro', emp.createEmp);
 app.get('/Empresa/:email_emp/:senha', emp.login);
+app.put('/Usuario/Atualizar/:id_usuario',);
+app.put('/Empresa/Atualizar/:id_empresa',);
 
 //app.post('/Reservatorio_User/:id_usuario/incluir', reserv.incluiReservUser); --> Deveria incluir assim
 app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); // teste

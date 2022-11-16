@@ -38,7 +38,7 @@ const retornaReservUser = async (req, res) => {
                //     IdReserv: result.rows[0].id_reservuser,
                // }
                 return res.status(200).send({
-                    message: 'Retornando reservatório referente ao ID do usuário',
+                //  message: 'Retornando reservatório referente ao ID do usuário',
                     reservatorio
                 //    tokenReserv: id_reserv
                 });
