@@ -80,6 +80,7 @@ const login = async (req, res) => {
   })
 }
 
+/*
 const update = async (req, res) => {
   const { id_usuario } = req.params;
   const { nome, sobrenome } = req.body;
@@ -112,6 +113,27 @@ const update = async (req, res) => {
   console.log(erro)
   return false;
 }
+}
+*/
+
+const update = async (req, res) =>{
+
+  try{
+    const {id_usuario} = req.params;
+    const {nome, sobrenome} = req.body;
+
+    const {query} = await pool.query('UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3');
+    pool.query(query, [req.params.id_usuario], [req.body.nome, sobrenome]);
+
+    return res.status(200).send({
+      mensagem: 'Atualizado!',
+      UpdatedUser: {nome, sobrenome}
+    })
+  }
+  catch(err){
+    return res.status(400).send(err)
+  }
+
 }
 
 
