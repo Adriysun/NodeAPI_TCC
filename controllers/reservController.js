@@ -51,47 +51,16 @@ const retornaReservUser = async (req, res) => {
 */
 
 const retornaReservUser = async (req, res) =>{
-//pool.connect((err, client, release) =>{
-  //  if (err) {
-  //      return console.error('Error ao adquirir o cliente', err.stack)
-  //  }
     try{
-   //     const {id_usuario} = req.params;
+        const {id_usuario} = req.params;
+
+        const {rows}  = await pool.query('SELECT * FROM reservatoriouser WHERE id_usuario = $1',  
+        [req.params.id_usuario])
         
-        const {query} = await pool.query('SELECT * FROM reservatoriouser WHERE id_usuario = 49')
-        return res.status(200).send({query});
-        /*
-        client.query(query, [req.params.id_usuario], (err, result) =>{
-            release();
-            if (err) {
-                return console.error('Erro ao executar a query', err.stack);
-            }
-            if(result){
-                const reservatorio = {
-                    IdReserv: result.rows[0].id_reservuser,
-                    Nome: result.rows[0].nome_reserv,
-                    IdUsuario: result.rows[0].id_usuario,
-                    Local: result.rows[0].local_reserv,
-                    CEP: result.rows[0].cep,
-                    DataUltimaLimpeza: result.rows[0].data_ultlimp,
-                    DataProximaLimpeza: result.rows[0].data_proxlimp,
-                    Tipo: result.rows[0].tipo,
-                    Descrição: result.rows[0].descricao,
-                }   
-
-                 return res.status(200).send({
-                    mensagem: 'Atualizado!',
-                     reservatorio
-        })
-
-            }
-        }) */
-      }
-      catch(err){
+        return res.status(200).json({rows});
+    } catch(err) {
         return res.status(400).send(err)
-      }
-//})
-
+    }
 }
 
 
@@ -101,8 +70,8 @@ const retornaReservEmp = async (req, res) => {
         if (err) {
             return console.error('Error ao adquirir o cliente', err.stack)
         }
-        const query = ('SELECT id_reservemp, nome_reserv, id_empresa, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao FROM reservatorioemp WHERE id_empresa = $1');
-        client.query(query, [req.params.id_empresa], (err, result) => {
+        const {rows} = ('SELECT id_reservemp, nome_reserv, id_empresa, local_reserv, cep, data_ultlimp, data_proxlimp, tipo, descricao FROM reservatorioemp WHERE id_empresa = $1');
+        client.query(rows, [req.params.id_empresa], (err, result) => {
             release();
             if (err) {
                 return console.error('Erro ao executar a query', err.stack);
@@ -124,9 +93,9 @@ const retornaReservEmp = async (req, res) => {
                     IdReserv: result.rows[0].id_reservemp,
                 }
                 return res.status(200).send({
-                    message: 'Retornando reservatório referente ao ID da Empresa',
-                    Reservatorio: reservatorio,
-                    tokenReserv: id_reserv
+                  //  message: 'Retornando reservatório referente ao ID da Empresa',
+                    reservatorio,
+                  //  tokenReserv: id_reserv
                 });
             }
         })

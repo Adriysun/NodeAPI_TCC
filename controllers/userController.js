@@ -116,19 +116,15 @@ const update = async (req, res) => {
 }
 */
 
-const update = async (req, res) =>{
+const dados = async (req, res) =>{
 
   try{
     const {id_usuario} = req.params;
-    const {nome, sobrenome} = req.body;
+    // 'UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3'
+    const {rows} = await pool.query('SELECT * FROM usuario WHERE id_usuario = $1',
+    [req.params.id_usuario]);
 
-    const {query} = await pool.query('UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3');
-    pool.query(query, [req.params.id_usuario], [req.body.nome, sobrenome]);
-
-    return res.status(200).send({
-      mensagem: 'Atualizado!',
-      UpdatedUser: {nome, sobrenome}
-    })
+    return res.status(200).send(rows)
   }
   catch(err){
     return res.status(400).send(err)
@@ -137,4 +133,4 @@ const update = async (req, res) =>{
 }
 
 
-module.exports = { createUser, login, update } 
+module.exports = { createUser, login, dados } 

@@ -42,7 +42,8 @@ app.use(rotaInicial);
 
 app.post('/Usuario/Cadastro', user.createUser);
 app.get('/Usuario/:email/:senha', user.login);
-app.put('/Usuario/Atualizar/:id_usuario', user.update);
+app.get('/Usuario/:id_usuario', user.dados);
+//app.put('/Usuario/Atualizar/:id_usuario', user.update);
 
 app.post('/Empresa/Cadastro', emp.createEmp);
 app.get('/Empresa/:email_emp/:senha', emp.login);
@@ -54,7 +55,7 @@ app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); // teste
 //app.post('/Reservatorio_Emp/:id_empresa/incluir', reserv.incluiReservEmp); --> Deveria incluir assim
 app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
 
-app.get('/Reservatorio_User', reserv.retornaReservUser);
+app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
 //app.post('/Agua_User/:id_reservuser/incluir', agua.incluiAguaEmp); --> Deveria incluir assim
@@ -93,6 +94,7 @@ app.get('/reservuser/:id_usuario', async (req, res) =>{
 
         const { rows } = await pool.query('SELECT * FROM reservatoriouser WHERE id_usuario = $1',  
         [req.params.id_usuario])
+
         return res.status(200).send(rows);
     } catch(err) {
         return res.status(400).send(err)
