@@ -57,7 +57,7 @@ const retornaReservUser = async (req, res) =>{
         const {rows}  = await pool.query('SELECT * FROM reservatoriouser WHERE id_usuario = $1',  
         [req.params.id_usuario])
         
-        return res.status(200).json({rows});
+        return res.status(200).json(rows);
     } catch(err) {
         return res.status(400).send(err)
     }

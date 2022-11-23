@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 
+const userService = require('../services/userServices');
+
 
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
@@ -80,6 +82,18 @@ const login = async (req, res) => {
   })
 }
 
+const update = async (req, res) =>{
+  const {id_usuario} = req.params;
+  const {nome, sobrenome, dtnasci} = req.body;
+
+  try{
+      res.json(await userService.update({id_usuario, nome, sobrenome, dtnasci}))
+  } catch (error){
+      res.status(500).json(error)
+  }
+
+}
+
 /*
 const update = async (req, res) => {
   const { id_usuario } = req.params;
@@ -116,7 +130,7 @@ const update = async (req, res) => {
 }
 */
 
-const dados = async (req, res) =>{
+const getDados = async (req, res) =>{
 
   try{
     const {id_usuario} = req.params;
@@ -129,8 +143,30 @@ const dados = async (req, res) =>{
   catch(err){
     return res.status(400).send(err)
   }
-
 }
 
 
-module.exports = { createUser, login, dados } 
+
+
+
+/*
+const update = async (req, res) =>{
+  try{
+    const {id_usuario} = req.params;
+    const {nome, sobrenome} = req.body;
+    // 'UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3'
+    const {rows} = pool.query('UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3',
+    [req.params.id_usuario], [req.body.nome, sobrenome]);
+
+    return res.json(
+     // mensagem: 'Usuario Atualizado!',
+     // UpdatedUser: { id_usuario, nome, sobrenome },
+      rows)
+  }
+  catch(err){
+    return res.status(400).send(err)
+  }  
+}
+*/
+
+module.exports = { createUser, login, getDados, update } 

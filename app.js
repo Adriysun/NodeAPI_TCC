@@ -4,17 +4,6 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
-function middleWareGlobal(req, res, next) {
-    console.time('Duraçao');
-    console.log(req.url);
-
-    next();
-
-    console.log(req.url);
-    console.timeEnd('Duraçao');
-}
-
-
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
@@ -23,6 +12,7 @@ const user = require ('./controllers/userController');
 const emp = require ('./controllers/empController');
 const reserv = require ('./controllers/reservController');
 const agua = require('./controllers/aguaController');
+
 
 // Cors
 app.use(express.urlencoded({ extended: true }));
@@ -42,8 +32,8 @@ app.use(rotaInicial);
 
 app.post('/Usuario/Cadastro', user.createUser);
 app.get('/Usuario/:email/:senha', user.login);
-app.get('/Usuario/:id_usuario', user.dados);
-//app.put('/Usuario/Atualizar/:id_usuario', user.update);
+app.get('/Usuario/:id_usuario', user.getDados);
+app.put('/Usuario/Atualizar/:id_usuario', user.update);
 
 app.post('/Empresa/Cadastro', emp.createEmp);
 app.get('/Empresa/:email_emp/:senha', emp.login);
@@ -51,11 +41,10 @@ app.get('/Empresa/:email_emp/:senha', emp.login);
 
 //app.post('/Reservatorio_User/:id_usuario/incluir', reserv.incluiReservUser); --> Deveria incluir assim
 app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); // teste
+app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 
 //app.post('/Reservatorio_Emp/:id_empresa/incluir', reserv.incluiReservEmp); --> Deveria incluir assim
 app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
-
-app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
 //app.post('/Agua_User/:id_reservuser/incluir', agua.incluiAguaEmp); --> Deveria incluir assim
@@ -78,6 +67,8 @@ const pool = new Pool({
       }
 })
 
+
+
 // Rota usuario
 app.get('/usuario', async (req, res) =>{
     try{
@@ -88,18 +79,6 @@ app.get('/usuario', async (req, res) =>{
     }
 })
 
-app.get('/reservuser/:id_usuario', async (req, res) =>{
-    try{
-        const {id_usuario} = req.params;
-
-        const { rows } = await pool.query('SELECT * FROM reservatoriouser WHERE id_usuario = $1',  
-        [req.params.id_usuario])
-
-        return res.status(200).send(rows);
-    } catch(err) {
-        return res.status(400).send(err)
-    }
-})
 
 // Rota empresa
 app.get('/empresa', async (req, res) =>{
