@@ -39,8 +39,7 @@ app.post('/Empresa/Cadastro', emp.createEmp);
 app.get('/Empresa/:email_emp/:senha', emp.login);
 //app.put('/Empresa/Atualizar/:id_empresa', emp.update);
 
-//app.post('/Reservatorio_User/:id_usuario/incluir', reserv.incluiReservUser); --> Deveria incluir assim
-app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); // teste
+app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 
 //app.post('/Reservatorio_Emp/:id_empresa/incluir', reserv.incluiReservEmp); --> Deveria incluir assim
