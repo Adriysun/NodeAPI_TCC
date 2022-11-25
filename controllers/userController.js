@@ -106,28 +106,21 @@ const getDados = async (req, res) =>{
   }
 }
 
+const forgetPass = async (req, res) =>{
+  const {id_usuario} = req.params;
+  const {senha} = req.body;
 
-
-
-
-/*
-const update = async (req, res) =>{
   try{
-    const {id_usuario} = req.params;
-    const {nome, sobrenome} = req.body;
-    // 'UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3'
-    const {rows} = pool.query('UPDATE usuario SET nome = $1, sobrenome = $2 WHERE id_usuario = $3',
-    [req.params.id_usuario], [req.body.nome, sobrenome]);
-
-    return res.json(
-     // mensagem: 'Usuario Atualizado!',
-     // UpdatedUser: { id_usuario, nome, sobrenome },
-      rows)
+    
+      res.json(await userService.forgetPass({
+        mensagem: 'Senha alterada com sucesso!',
+        id_usuario, senha}))
+  
+  } catch (error){
+      res.status(500).json(error)
   }
-  catch(err){
-    return res.status(400).send(err)
-  }  
-}
-*/
 
-module.exports = { createUser, login, getDados, update } 
+}
+
+
+module.exports = { createUser, login, getDados, update, forgetPass } 
