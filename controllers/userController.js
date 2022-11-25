@@ -64,10 +64,9 @@ const login = async (req, res) => {
           return res.status(401).send({ mensagem: 'Falha na autenticação2' })
         }
         if (result) {
-          // talvez usar esse const como parametro tbm para passar na rota com req.params?
           const Id_Armazenado = {
             id_usuario: results.rows[0].id_usuario,
-            //email: results.rows[0].email
+            nome: results.rows[0].nome
           }
           console.log('Autenticado com sucesso!');
           return res.status(200).send({

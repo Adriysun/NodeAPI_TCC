@@ -63,7 +63,7 @@ const login = async (req, res) => {
             if (result) {
                 const Id_Armazenado = {
                     id_empresa: results.rows[0].id_empresa,
-                   // email: results.rows[0].email_emp
+                   nome_fantasia: results.rows[0].nome_fantasia
                   }
               console.log('Autenticado com sucesso!');
               return res.status(200).send({ 
