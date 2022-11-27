@@ -119,7 +119,26 @@ const incluiReservEmp = async (req, res) => {
         })
 }
 
+// --- Testes Ana ----
+const incluiReserv = async (req, res) => {
+    const {nome, id_user, local, cep, dt_ultima, dt_prox, tipo, descricao} = req.body;    
+        pool.connect((err, client, release) => {
+            if (err) {
+                return console.error('Error ao adquirir o cliente', err.stack)
+            }
+            client.query('INSERT INTO testerserv (nome, id_user, local, cep, dt_ultima, dt_prox, tipo, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                [req.body.nome, id_user, local, cep, dt_ultima, dt_prox, tipo, descricao]); //[req.params.id_usuario]);
+            res.status(201).send({
+                message: "Reservatório adicionado -- Teste Ana!",
+                body: {
+                    Reservatorio: { nome, id_user, local, cep, dt_ultima, dt_prox, tipo, descricao }
+                },
+            });
+            console.log('Reservatório adicionado -- Teste Ana!')
+        })
+}
+
 
 //https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
 
-module.exports = { retornaReservUser, retornaReservEmp, incluiReservUser, incluiReservEmp}
+module.exports = { retornaReservUser, retornaReservEmp, incluiReservUser, incluiReservEmp, incluiReserv}

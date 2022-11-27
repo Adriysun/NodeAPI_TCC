@@ -41,6 +41,7 @@ app.get('/Empresa/:email_emp/:senha', emp.login);
 //app.put('/Empresa/Atualizar/:id_empresa', emp.update);
 
 app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
+app.post('/Reservatorio/Incluir', reserv.incluiReserv); // Teste Ana
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 
 app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
