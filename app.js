@@ -38,20 +38,27 @@ app.put('/Usuario/AlterarSenha/:id_usuario', user.forgetPass);
 
 app.post('/Empresa/Cadastro', emp.createEmp);
 app.get('/Empresa/:email_emp/:senha', emp.login);
+
 //app.put('/Empresa/Atualizar/:id_empresa', emp.update);
 
+<<<<<<< Updated upstream
 app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
 app.post('/Reservatorio/Incluir', reserv.incluiReserv); // Teste Ana
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
+=======
+app.post('/Reservatorio/Incluir', reserv.incluirReservatorio);  //Rota que definitiva de reserv
+app.get('/Reservatorio/:id_user', reserv.retornaReservatorio);  //Rota que definitiva de reserv
+>>>>>>> Stashed changes
 
-app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
-app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
+//app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
+//app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
+//app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
-app.post('/Agua_User/Incluir', agua.incluiAguaUser); 
-app.post('/Agua_Emp/Incluir', agua.incluiAguaEmp); 
+app.post('/Agua/Incluir', agua.incluiAgua);    //Rota que definitiva de água
+app.get('/Agua/:id_reserv', agua.retornaAgua); //Rota que definitiva de água
 
-app.get('/Agua_User/:id_reservuser', agua.retornaAguaUser);
-app.get('/Agua_Emp/:id_reservemp', agua.retornaAguaEmp);
+//app.post('/Agua_Emp/Incluir', agua.incluiAguaEmp); 
+//app.get('/Agua_Emp/:id_reservemp', agua.retornaAguaEmp);
 
 
 

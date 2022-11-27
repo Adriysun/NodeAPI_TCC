@@ -7,13 +7,13 @@ const pool = new Pool({
     }
 })
 
-const retornaAguaUser = async (req, res) => {
-    const { id_reservuser } = req.params;
+const retornaAgua = async (req, res) => {
+    const { id_reserv } = req.params;
     pool.connect((err, client, release) => {
         if (err) {
             return console.error('Error ao adquirir o cliente', err.stack)
         }
-        const query = ('SELECT id_aguauser, turbidez FROM aguauser WHERE id_reservuser = $1');
+        const query = ('SELECT id_reserv, turbidez FROM agua WHERE id_reserv = $1');
         client.query(query, [req.params.id_reservuser], (err, result) => {
             release();
             if (err) {
@@ -36,6 +36,55 @@ const retornaAguaUser = async (req, res) => {
             }
         })
 
+    })
+}
+
+const incluiAgua = async (req, res) => {
+    const { id_reserv, turbidez } = req.body
+    pool.connect((err, client, release) => {
+        if (err) {
+            return console.error('Error ao adquirir o cliente', err.stack)
+        }
+        client.query('INSERT INTO agua (id_reserv, turbidez) VALUES ($1, $2)',
+            [req.body.id_reserv, turbidez],  (err, result) => {
+                release();
+                if (err) {
+                    return console.error('Erro ao executar a query', err.stack);
+                }
+                if (result) {
+                    return res.status(200).send({
+                        message: 'Informação referente a turbidez inserida!',
+                        Sensor_Info: {id_reserv, turbidez}
+                    })
+                }
+            });
+            console.log('Informação referente a turbidez inserida!')
+    })
+}
+
+module.exports = {retornaAgua, incluiAgua}
+// ---------------------------- Não usamos mais --------------------------------
+/*const incluiAguaEmp = async (req, res) => {
+    const { id_reservemp, turbidez } = req.body
+   // const { id_reservemp } = req.params
+    pool.connect((err, client, release) => {
+        if (err) {
+            return console.error('Error ao adquirir o cliente', err.stack)
+        }
+        client.query('INSERT INTO aguauser (id_reservuser, turbidez) VALUES ($1, $2)',
+            [req.body.id_reservemp, turbidez],  (err, result) => {
+                release();
+                if (err) {
+                    return console.error('Erro ao executar a query', err.stack);
+                }
+                if (result) {
+                    return res.status(200).send({
+                        message: 'Informação referente a turbidez inserida!',
+                        Sensor_Info: {id_reservemp, turbidez}
+                    })
+                }
+            });
+            console.log('Informação referente a turbidez inserida!')
     })
 }
 
@@ -70,55 +119,4 @@ const retornaAguaEmp = async (req, res) => {
 
     })
 }
-
-const incluiAguaUser = async (req, res) => {
-    const { id_reservuser, turbidez } = req.body
-   // const { id_reservuser } = req.params
-    pool.connect((err, client, release) => {
-        if (err) {
-            return console.error('Error ao adquirir o cliente', err.stack)
-        }
-        client.query('INSERT INTO aguauser (id_reservuser, turbidez) VALUES ($1, $2)',
-            [req.body.id_reservuser, turbidez],  (err, result) => {
-                release();
-                if (err) {
-                    return console.error('Erro ao executar a query', err.stack);
-                }
-                if (result) {
-                    return res.status(200).send({
-                        message: 'Informação referente a turbidez inserida!',
-                        Sensor_Info: {id_reservuser, turbidez}
-                    })
-                }
-            });
-            console.log('Informação referente a turbidez inserida!')
-    })
-}
-
-const incluiAguaEmp = async (req, res) => {
-    const { id_reservemp, turbidez } = req.body
-   // const { id_reservemp } = req.params
-    pool.connect((err, client, release) => {
-        if (err) {
-            return console.error('Error ao adquirir o cliente', err.stack)
-        }
-        client.query('INSERT INTO aguauser (id_reservuser, turbidez) VALUES ($1, $2)',
-            [req.body.id_reservemp, turbidez],  (err, result) => {
-                release();
-                if (err) {
-                    return console.error('Erro ao executar a query', err.stack);
-                }
-                if (result) {
-                    return res.status(200).send({
-                        message: 'Informação referente a turbidez inserida!',
-                        Sensor_Info: {id_reservemp, turbidez}
-                    })
-                }
-            });
-            console.log('Informação referente a turbidez inserida!')
-    })
-}
-
-
-
-module.exports = { retornaAguaUser, retornaAguaEmp, incluiAguaUser, incluiAguaEmp }
+ */
