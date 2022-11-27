@@ -97,8 +97,7 @@ const incluiReservEmp = async (req, res) => {
             console.log('Reservatório adicionado!')
         })
 }
-<<<<<<< Updated upstream
-=======
+
 const retornaReservEmp = async (req, res) => {
     const id_empresa = req.params;
     pool.connect((err, client, release) => {
@@ -137,13 +136,8 @@ const retornaReservEmp = async (req, res) => {
         console.log('Retornando reservatorio referente ao ID empresa')
     });
 }
+module.exports = { retornaReservUser, retornaReservEmp, incluiReservUser, incluiReservEmp, incluiReserv}
 */
->>>>>>> Stashed changes
-
-
 //https://www.linkedin.com/pulse/entendendo-parâmetros-em-requisições-de-uma-vez-por-todas-henrique/?originalSubdomain=pt
 
-<<<<<<< Updated upstream
-module.exports = { retornaReservUser, retornaReservEmp, incluiReservUser, incluiReservEmp}
-=======
->>>>>>> Stashed changes
+

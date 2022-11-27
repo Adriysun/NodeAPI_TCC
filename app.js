@@ -43,6 +43,7 @@ app.get('/Empresa/:email_emp/:senha', emp.login);
 
 <<<<<<< Updated upstream
 app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
+app.post('/Reservatorio/Incluir', reserv.incluiReserv); // Teste Ana
 app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 =======
 app.post('/Reservatorio/Incluir', reserv.incluirReservatorio);  //Rota que definitiva de reserv
