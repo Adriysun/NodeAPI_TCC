@@ -41,17 +41,13 @@ app.get('/Empresa/:email_emp/:senha', emp.login);
 
 //app.put('/Empresa/Atualizar/:id_empresa', emp.update);
 
-<<<<<<< Updated upstream
-app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
-app.post('/Reservatorio/Incluir', reserv.incluiReserv); // Teste Ana
-app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
-=======
 app.post('/Reservatorio/Incluir', reserv.incluirReservatorio);  //Rota que definitiva de reserv
 app.get('/Reservatorio/:id_user', reserv.retornaReservatorio);  //Rota que definitiva de reserv
->>>>>>> Stashed changes
+
 
 //app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
 //app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
+//app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
 //app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
 
 app.post('/Agua/Incluir', agua.incluiAgua);    //Rota que definitiva de água
