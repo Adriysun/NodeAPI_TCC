@@ -31,13 +31,15 @@ app.use((req, res, next) => {
 app.use(rotaInicial);
 
 app.post('/Usuario/Cadastro', user.createUser);
+app.post('/Usuario/ValidarEmail', user.ValEmail);
 app.get('/Usuario/:email/:senha', user.login);
 app.get('/Usuario/:id_usuario', user.getDados);
 app.put('/Usuario/Atualizar/:id_usuario', user.update);
 app.put('/Usuario/AlterarSenha/:id_usuario', user.forgetPass);
 
+
 app.post('/Empresa/Cadastro', emp.createEmp);
-app.get('/Empresa/:email_emp/:senha', emp.login);
+app.get('/Empresa/:email/:senha', emp.login);
 
 //app.put('/Empresa/Atualizar/:id_empresa', emp.update);
 
