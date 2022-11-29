@@ -131,7 +131,7 @@ const forgetPass = async (req, res) =>{
 
   try{
       res.json(await empService.forgetPass({id_empresa, senha}))
-  
+      console.log('Senha alterada!')
   } catch (error){
       res.status(500).json(error)
   }

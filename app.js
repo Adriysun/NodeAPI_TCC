@@ -46,17 +46,16 @@ app.put('/Empresa/Atualizar/:id_empresa', emp.update);
 app.put('/Empresa/AlterarSenha/:id_empresa', emp.forgetPass);
 
 // Reservatorio
-app.post('/Reservatorio/Incluir', reserv.incluirReservatorio);  //Rota que definitiva de reserv
-app.get('/Reservatorio/:id_user', reserv.retornaReservatorio);  //Rota que definitiva de reserv
+app.post('/Reservatorio/Incluir', reserv.incluirReservatorio);  
+app.get('/Reservatorio/:id_user', reserv.retornaReservatorio);  
 
 // Agua
-app.post('/Agua/Incluir', agua.incluiAgua);    //Rota que definitiva de água
-app.get('/Agua/:id_reserv', agua.retornaAgua); //Rota que definitiva de água
-
-//app.post('/Agua_Emp/Incluir', agua.incluiAguaEmp); 
-//app.get('/Agua_Emp/:id_reservemp', agua.retornaAguaEmp);
+app.post('/Agua/Incluir', agua.incluiAgua);    
+app.get('/Agua/:id_reserv', agua.retornaAgua); 
 
 
+
+// --------------------------------------------------- //
 
 // Conexão com o banco PostgreSQL
 const pool = new Pool({

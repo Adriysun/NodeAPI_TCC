@@ -134,6 +134,7 @@ const forgetPass = async (req, res) =>{
   try{
     
       res.json(await userService.forgetPass({id_usuario, senha}))
+      console.log('Senha alterada!')
   
   } catch (error){
       res.status(500).json(error)
