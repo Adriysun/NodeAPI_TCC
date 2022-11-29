@@ -1,4 +1,3 @@
-//const userController = require ('../controller/userController');
 const userSQL = require ('../js/userSQL');
 
 

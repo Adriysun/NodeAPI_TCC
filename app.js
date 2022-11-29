@@ -7,7 +7,6 @@ require('dotenv').config();
 
 // Const de rotas
 const rotaInicial = require('./routes/inicial');
-
 const user = require ('./controllers/userController');
 const emp = require ('./controllers/empController');
 const reserv = require ('./controllers/reservController');
@@ -30,6 +29,7 @@ app.use((req, res, next) => {
 // Rotas da API
 app.use(rotaInicial);
 
+// Usuario
 app.post('/Usuario/Cadastro', user.createUser);
 app.post('/Usuario/ValidarEmail', user.ValEmail);
 app.get('/Usuario/:email/:senha', user.login);
@@ -37,21 +37,19 @@ app.get('/Usuario/:id_usuario', user.getDados);
 app.put('/Usuario/Atualizar/:id_usuario', user.update);
 app.put('/Usuario/AlterarSenha/:id_usuario', user.forgetPass);
 
-
+// Empresa
 app.post('/Empresa/Cadastro', emp.createEmp);
+app.post('/Empresa/ValidarEmail', emp.ValEmail);
 app.get('/Empresa/:email/:senha', emp.login);
+app.get('/Empresa/:id_empresa', emp.getDados);
+app.put('/Empresa/Atualizar/:id_empresa', emp.update);
+app.put('/Empresa/AlterarSenha/:id_empresa', emp.forgetPass);
 
-//app.put('/Empresa/Atualizar/:id_empresa', emp.update);
-
+// Reservatorio
 app.post('/Reservatorio/Incluir', reserv.incluirReservatorio);  //Rota que definitiva de reserv
 app.get('/Reservatorio/:id_user', reserv.retornaReservatorio);  //Rota que definitiva de reserv
 
-
-//app.post('/Reservatorio_User/Incluir', reserv.incluiReservUser); 
-//app.post('/Reservatorio_Emp/Incluir', reserv.incluiReservEmp); // teste
-//app.get('/Reservatorio_User/:id_usuario', reserv.retornaReservUser);
-//app.get('/Reservatorio_Emp/:id_empresa', reserv.retornaReservEmp);
-
+// Agua
 app.post('/Agua/Incluir', agua.incluiAgua);    //Rota que definitiva de água
 app.get('/Agua/:id_reserv', agua.retornaAgua); //Rota que definitiva de água
 
@@ -100,6 +98,7 @@ app.get('/reservatorioUser', async (req, res) =>{
         return res.status(400).send(err)
     }
 })
+
 app.get('/reservatorioEmp', async (req, res) =>{
     try{
         const { rows } = await pool.query('SELECT * FROM reservatorioEmp')  

@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 
-const userService = require('../services/userServices');
+const userService = require('../services/userService');
 
 
 const pool = new Pool({
@@ -120,28 +120,12 @@ const ValEmail = async (req, res) =>{
       }
       if (results.rows.length > 0) {
         return res.status(200).send({ id_usuario: results.rows[0].id_usuario })
-      }
+      } else {
+        return res.status(204).send({mensagem: 'Email não encontrado'})
+      } 
     })
   })
 }
-/*
-  const { email } = req.body;
-  pool.connect((err, client, release) => {
-    if (err) {
-      return console.error('Error ao adquirir o cliente', err.stack)
-    }
-    client.query('SELECT * FROM usuario WHERE email = $1', [req.body.email], (err, results, fields) => {
-      release();
-      if (err) {
-        return console.error('Erro ao executar a query', err.stack);
-      }
-      if (results.rows.length > 1) {
-        return res.status(200).send({ mensagem: 'Email Verificado!' })
-      }
-});
-})
-*/
-
 
 const forgetPass = async (req, res) =>{
   const {id_usuario} = req.params;
@@ -149,9 +133,7 @@ const forgetPass = async (req, res) =>{
 
   try{
     
-      res.json(await userService.forgetPass({
-        mensagem: 'Senha alterada com sucesso!',
-        id_usuario, senha}))
+      res.json(await userService.forgetPass({id_usuario, senha}))
   
   } catch (error){
       res.status(500).json(error)

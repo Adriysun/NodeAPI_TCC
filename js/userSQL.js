@@ -19,7 +19,7 @@ const update = async ({id_usuario, nome, sobrenome, dtnasci}) => {
 
 const forgetPass = async ({id_usuario, senha}) => {
 
-    const {rows} = pool.query('UPDATE usuario SET senha = $1 WHERE id_usuario = $2',
+    const {rows} = await pool.query('UPDATE usuario SET senha = $1 WHERE id_usuario = $2 returning senha, id_usuario',
     [senha, id_usuario])
 
     return rows
