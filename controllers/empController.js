@@ -119,6 +119,7 @@ const update = async (req, res) =>{
 
   try{
       res.json(await empService.update({id_empresa, razao_social, nome_fantasia, dtfund}))
+      console.log('Informações Alteradas!')
   } catch (error){
       res.status(500).json(error)
   }

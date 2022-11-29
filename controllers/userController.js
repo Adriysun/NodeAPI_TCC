@@ -87,6 +87,7 @@ const update = async (req, res) =>{
 
   try{
       res.json(await userService.update({id_usuario, nome, sobrenome, dtnasci}))
+      console.log('Informações Alteradas!')
   } catch (error){
       res.status(500).json(error)
   }
