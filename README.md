@@ -2,6 +2,7 @@
 
 Trabalho de Conclusão de Curso COTUCA
 
+<a href="https://github.com/ol-anaa/YaraPagWeb">💻</a> Página Web </br>
  <a href="https://github.com/ol-anaa/Flutter">📱</a> Aplicativo
 
 <hr/>
