@@ -1,6 +1,8 @@
-<h1> Yara - API REST + PostgreSQL 🐘 </h1>
+<h1> Yara - Dart + API REST - PostgreSQL 🐘 </h1>
 
-Trabalho de Conclusão de Curso COTUCA 
+Trabalho de Conclusão de Curso COTUCA
+
+ <a href="https://github.com/ol-anaa/Flutter">📱</a> Aplicativo
 
 <hr/>
 <h3>Autores:</h3>
